@@ -5,7 +5,7 @@ const getValidDefaultValue = (value, defaultValue) => {
 	let validDefaultValue = +value;
 
 	if (isNaN(validDefaultValue)) {
-		validDefaultValue = defaultValue || 0;
+		validDefaultValue = defaultValue || '';
 	}
 
 	return validDefaultValue;
@@ -22,10 +22,12 @@ const getValidValue = (value, defaultValue) => {
 };
 */
 export default class NumberInput extends React.Component {
-	/* static defaultProps = {
+	static defaultProps = {
 		min: Number.NEGATIVE_INFINITY,
-		max: Number.POSITIVE_INFINITY,
-	} */
+		/* max: Number.POSITIVE_INFINITY, */
+
+		onChange: () => {},
+	}
 
 	static propTypes = {
 		id: React.PropTypes.string,
@@ -33,11 +35,12 @@ export default class NumberInput extends React.Component {
 		value: React.PropTypes.number,
 		defaultValue: React.PropTypes.number,
 		disabled: React.PropTypes.bool,
-		/* min: React.PropTypes.number,
-		max: React.PropTypes.number,
+		floatingLabelText: React.PropTypes.string,
+		min: React.PropTypes.number,
+		/* max: React.PropTypes.number,
 
-		onBlur: React.PropTypes.func,
-		onChange: React.PropTypes.func, */
+		onBlur: React.PropTypes.func,  */
+		onChange: React.PropTypes.func,
 	}
 	/*
 	constructor(props) {
@@ -52,15 +55,14 @@ export default class NumberInput extends React.Component {
 	state = {
 		value: getValidDefaultValue(this.props.value, this.props.defaultValue),
 	}
-	/*
-	blurHandler(...props) {
+	blurHandler = () => {
 		let newValue = this.state.value;
 
 		if (newValue < this.props.min) {
 			newValue = this.props.min;
+			this.setState({ value: newValue });
 		}
-
-		if (newValue > this.props.max) {
+		/* if (newValue > this.props.max) {
 			newValue = this.props.max;
 		}
 
@@ -73,28 +75,29 @@ export default class NumberInput extends React.Component {
 			}
 		}
 
-		this.props.onBlur(...props);
+		this.props.onBlur(...props); */
 	}
-
-	changeHandler() {
-		const newValue = +this.textField.input.value;
-
-		if (!isNaN(newValue) && this.state.value !== newValue) {
+	changeHandler = (e) => {
+		const newValue = +e.target.value;
+		if (!isNaN(newValue)) {
 			this.setState({ value: newValue });
+			this.props.onChange(e);
 		}
 	}
-	*/
 	render() {
 		return (
 			<div className="lgx-number-field">
 				<TextField
 					className="lgx-text-field"
-					ref={(c) => { this.textField = c; }}
 
 					id={this.props.id}
 					name={this.props.name}
 					value={this.state.value}
 					disabled={this.props.disabled}
+					floatingLabelText={this.props.floatingLabelText}
+
+					onChange={this.changeHandler}
+					onBlur={this.blurHandler}
 				/>
 			</div>
 		);
