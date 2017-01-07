@@ -106,7 +106,8 @@ describe('<NumberField />', () => {
 		it('shoud given floatingLabelText prop', () => {
 			expect(getFullComponent().find(TextField).first()).to.have.prop('floatingLabelText', propValues.floatingLabelText);
 		});
-
+	});
+	describe('Check handlers props', () => {
 		it('shoud calling onChange handler', () => {
 			const changeHandler = chai.spy();
 			const component = mount(
@@ -134,8 +135,63 @@ describe('<NumberField />', () => {
 			const input = component.find('input').first();
 			input.simulate('change');
 		});
+		it('shoud calling onBlur handler', () => {
+			const blurHandler = chai.spy();
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					onBlur={blurHandler}
+				/>,
+				contextProps,
+			);
+			const input = component.find('input').first();
+			input.simulate('blur');
+			expect(blurHandler).to.have.been.called.once();
+		});
+		it('shoud given event object to handler when calling onBlur handler', () => {
+			const blurHandler = chai.spy((e) => {
+				expect(e).to.be.an('object');
+			});
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					onBlur={blurHandler}
+				/>,
+				contextProps,
+			);
+			const input = component.find('input').first();
+			input.simulate('blur');
+		});
+		it('shoud calling onFocus handler', () => {
+			const focusHandler = chai.spy();
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					onFocus={focusHandler}
+				/>,
+				contextProps,
+			);
+			const input = component.find('input').first();
+			input.simulate('focus');
+			expect(focusHandler).to.have.been.called.once();
+		});
+		it('shoud given event object to handler when calling onFocus handler', () => {
+			const focusHandler = chai.spy((e) => {
+				expect(e).to.be.an('object');
+			});
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					onFocus={focusHandler}
+				/>,
+				contextProps,
+			);
+			const input = component.find('input').first();
+			input.simulate('focus');
+		});
 	});
 	describe('Check custom props', () => {
+		/* min prop */
 		it('shoud given min prop', () => {
 			expect(getFullComponent()).to.have.prop('min', propValues.min);
 		});
@@ -156,6 +212,114 @@ describe('<NumberField />', () => {
 			expect(component).to.have.state('value', 1);
 			input.simulate('blur');
 			expect(component).to.have.state('value', 50);
+		});
+		it('shoud ignore value prop if it lower min and setting value equal default value', () => {
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					value={10}
+					defaultValue={100}
+					min={50}
+				/>,
+				contextProps,
+			);
+			expect(component).to.have.state('value', 100);
+		});
+		it('shoud ignore defaultValue prop if it lower min and setting defaultValue equal min', () => {
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					defaultValue={10}
+					min={50}
+				/>,
+				contextProps,
+			);
+			expect(component).to.have.state('defaultValue', 50);
+		});
+		it('shoud given value state equal min if it and defaultValue no getting and min prop larger then zero', () => {
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					min={50}
+				/>,
+				contextProps,
+			);
+			expect(component).to.have.state('value', 50);
+		});
+		it('shoud given value state equal emty string if it and defaultValue no getting and min prop lower then zero', () => {
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					min={-10}
+				/>,
+				contextProps,
+			);
+			expect(component).to.have.state('value', '');
+		});
+		/* max prop */
+		it('shoud given max prop', () => {
+			expect(getFullComponent()).to.have.prop('max', propValues.max);
+		});
+		it('shoud default max prop is POSITIVE_INFINITY', () => {
+			expect(getSimpleComponent()).to.have.prop('max', Number.POSITIVE_INFINITY);
+		});
+		it('shoud correct value if it larger max at blur input', () => {
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					value={10}
+					max={50}
+				/>,
+				contextProps,
+			);
+			const input = component.find('input').first();
+			input.simulate('change', { target: { value: '100' } });
+			expect(component).to.have.state('value', 100);
+			input.simulate('blur');
+			expect(component).to.have.state('value', 50);
+		});
+		it('shoud ignore value prop if it larger min and setting value equal default value', () => {
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					value={150}
+					defaultValue={50}
+					max={100}
+				/>,
+				contextProps,
+			);
+			expect(component).to.have.state('value', 50);
+		});
+		it('shoud ignore defaultValue prop if it larger max and setting defaultValue equal max', () => {
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					defaultValue={100}
+					max={50}
+				/>,
+				contextProps,
+			);
+			expect(component).to.have.state('defaultValue', 50);
+		});
+		it('shoud given value state equal max if it and defaultValue no getting and max prop lower then zero', () => {
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					max={-50}
+				/>,
+				contextProps,
+			);
+			expect(component).to.have.state('value', -50);
+		});
+		it('shoud given value state equal emty string if it and defaultValue no getting and max prop larger then zero', () => {
+			const component = mount(
+				<NumberField
+					id={propValues.id}
+					max={10}
+				/>,
+				contextProps,
+			);
+			expect(component).to.have.state('value', '');
 		});
 	});
 	describe('Check behavior of field', () => {

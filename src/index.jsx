@@ -1,10 +1,12 @@
-// import App from 'app/app';
+import 'highlight.js/styles/default.css';
+import 'style.less';
 import ReactDom from 'react-dom';
 import React from 'react';
-
+import Highlight from 'react-syntax-highlight';
 import AppBar from 'material-ui/AppBar';
-import TextField from 'material-ui/TextField';
-
+import Subheader from 'material-ui/Subheader';
+// import TextField from 'material-ui/TextField';
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import NumberField from 'numberField';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -19,38 +21,57 @@ ReactDom.render(
 	(<MuiThemeProvider>
 		<div>
 			<AppBar
-				title="Doc"
+				title="MUI NumberField Examles"
 				showMenuIconButton={false}
 			/>
-			<TextField
-				id="f"
-				floatingLabelText="floatingLabelText"
-			/>
-			<NumberField
-				id="id"
-			/>
-			<NumberField
-				id="id"
-				value={50}
-			/>
-			<NumberField
-				id="id"
-				defaultValue={100}
-			/>
-			<NumberField
-				id="id"
-				value={50}
-				disabled
-			/>
-			<NumberField
-				id="id"
-				floatingLabelText="floatingLabelText"
-			/>
-			<NumberField
-				id="id"
-				value={50}
-				min={10}
-			/>
+			<div className="content">
+				<div className="examle-item">
+					<Card>
+						<CardHeader
+							title="Simple field"
+							actAsExpander
+							showExpandableButton
+						/>
+						<CardActions>
+							<NumberField name="name" />
+						</CardActions>
+						<CardText expandable>
+							<Highlight lang={'javascript'} value={'<NumberField name="name" />'} />
+						</CardText>
+					</Card>
+				</div>
+				<div className="examle-item">
+					<Card>
+						<CardHeader
+							title="Using 'min' and 'max' property"
+							actAsExpander
+							showExpandableButton
+						/>
+						<CardActions>
+							<Subheader>{'min = -100, max = 100'}</Subheader>
+							<NumberField name="name" min={-100} max={100} />
+						</CardActions>
+						<CardText expandable>
+							<Highlight lang={'javascript'} value={'<NumberField name="name" min={-100} max={100} />'} />
+						</CardText>
+					</Card>
+				</div>
+				<div className="examle-item">
+					<Card>
+						<CardHeader
+							title="Using vanilla 'floatingLabelText' property"
+							actAsExpander
+							showExpandableButton
+						/>
+						<CardActions>
+							<NumberField name="name" floatingLabelText="floating label text" />
+						</CardActions>
+						<CardText expandable>
+							<Highlight lang={'javascript'} value={'<NumberField name="name" floatingLabelText="floating label text" />'} />
+						</CardText>
+					</Card>
+				</div>
+			</div>
 		</div>
 	</MuiThemeProvider>),
 	window.document.getElementById('app'),
