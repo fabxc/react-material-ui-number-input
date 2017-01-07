@@ -25,3 +25,20 @@ ReactDom.render(
 	window.document.getElementById('app'),
 );
 ```
+
+### API
+
+| Name                    | Type       | Default   | Description                                                                       |
+| ----------------------- | ---------- | --------- | --------------------------------------------------------------------------------- |
+| children                | *node*     |           |                                                                                   |
+| className               | *string*   |           | The css class name of the root element.                                           |
+| disabled                | *bool*     | *false*   | Disables the input field if set to true.                                          |
+| id                      | *string*   |           | The id prop for the input field.                                                  |
+| name                    | *string*   |           | Name applied to the input.                                                        |
+| defaultValue            | *number*   |           | The number to use for the default value.                                          |
+| min                     | *number*   |           | The number to use for the minimum limit                                           |
+| max                     | *number*   |           | The number to use for the maximum limit                                           |
+| value                   | *string*   |           | The value of the input field.                                                     |
+| onChange                | *function* |           | Callback function that is fired when input filed must change.                     |
+| floatingLabelText       | *node*     |           | The content to use for the floating label element.                                |
+| style                   | *object*   |           | Override the inline-styles of the root element.                                   |
