@@ -1,2 +1,2 @@
-import NumberField from 'src/numberField/index.jsx';
+import NumberField from './src/numberField/index.jsx';
 export default NumberField;

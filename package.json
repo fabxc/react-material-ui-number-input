@@ -1,6 +1,6 @@
 {
   "name": "react-material-ui-number-input",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Number field component for React Material UI",
   "main": "index.js",
   "scripts": {

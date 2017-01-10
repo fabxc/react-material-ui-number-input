@@ -118,3 +118,4 @@ export default class NumberInput extends React.Component {
 		);
 	}
 }
+
